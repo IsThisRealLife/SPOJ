@@ -22,49 +22,40 @@ unsigned hash_(string& key)
 void insert_key(string& key, vector<string>& hashTable)
 {
     unsigned hashed_ind = hash_(key);
-    unsigned ind = hashed_ind;
-    unsigned j = 1;
 
-    while(j < 20)
+    //if already there, return
+    for(int j = 0; j < 20; j++)
     {
-        if(hashTable[ind] == key)
+        if(hashTable[(hashed_ind + j*j + 23*j) % 101] == key) 
+        {
             return;
-        ind = (hashed_ind + j*j + 23*j) % 101;
-        j += 1;
+        }
     }
-
-    ind = hashed_ind;
-    j = 1;
     
-    while(hashTable[ind].size() != 0 && j < 20)
+    //if not already in and
+    //if there is a non-empty slot, insert it
+    for(int j = 0; j < 20; j++)
     {
-        
-        ind = (hashed_ind + j*j + 23*j) % 101;
-        j += 1;
-    }
-
-    if(j < 20)
-    {
-        hashTable[ind] = key;
+        if(hashTable[(hashed_ind + j*j + 23*j) % 101].empty())
+        {
+            hashTable[(hashed_ind + j*j + 23*j) % 101] = key;
+            return;
+        }
     }
 }
+
 
 void delete_key(string& key, vector<string>& hashTable)
 {
-    unsigned hashed_ind = hash_(key);
-    unsigned ind = hashed_ind;
-    unsigned j = 1;
+    unsigned hashed_ind = hash_(key); 
 
-    while(j < 20)
+    for(int j = 0; j < 20; j++)
     {
-        if(hashTable[ind] == key)
-            hashTable[ind] = "";
-        
-        ind = (hashed_ind + j*j + 23*j) % 101;
-        j += 1;
+        if(hashTable[(hashed_ind + j*j + 23*j) % 101] == key) 
+            hashTable[(hashed_ind + j*j + 23*j) % 101] = "";
     }
-
 }
+
 int main()
 {
     ios_base::sync_with_stdio(false);
@@ -91,10 +82,8 @@ int main()
 
             if(op == "ADD")
                 insert_key(key, hashTable);
-            else if(op == "DEL")
-                delete_key(key, hashTable);
             else
-                double l = 3/0;
+                delete_key(key, hashTable);
 
         }
 
@@ -115,8 +104,6 @@ int main()
 
         hashTable.clear();
     }
-
-    
 
     return 0;
 }
