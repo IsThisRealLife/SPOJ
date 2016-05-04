@@ -25,14 +25,25 @@ void insert_key(string& key, vector<string>& hashTable)
     unsigned ind = hashed_ind;
     unsigned j = 1;
 
-    while(hashTable[ind].size() != 0 && hashTable[ind] != key && j < 20)
+    while(j < 20)
+    {
+        if(hashTable[ind] == key)
+            return;
+        ind = (hashed_ind + j*j + 23*j) % 101;
+        j += 1;
+    }
+
+    ind = hashed_ind;
+    j = 1;
+    
+    while(hashTable[ind].size() != 0 && j < 20)
     {
         
         ind = (hashed_ind + j*j + 23*j) % 101;
         j += 1;
     }
 
-    if(hashTable[ind] != key && j < 20)
+    if(j < 20)
     {
         hashTable[ind] = key;
     }
