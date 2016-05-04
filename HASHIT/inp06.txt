@@ -1,0 +1,14 @@
+2
+8
+ADD:opa
+ADD:wraia
+DEL:ok
+ADD:opa
+ADD:REFILE
+ADD:opa
+DEL:opa
+DEL:OPA
+3
+ADD:den
+ADD:mplekeis
+DEL:ADSF
