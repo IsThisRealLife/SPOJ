@@ -35,46 +35,39 @@ void sieveFill(int n)
             primes.push_back(i);
 }
 
-void sieveSegmented(int n)
+void sieveSegmented(int n, int m)
 {
-    int low = n;
-    int high = 2*n; 
+    if(n == 1)
+        n ++ ;
 
-    unsigned primesBelowN = primes.size();
+    int sq = sqrt(m) + 1;
 
-    while(low < MAXNUM)
+    bool mark[m - n + 1];
+    memset(mark, true, sizeof(mark));
+
+    for(unsigned i = 0; i < primes.size() && primes[i] <= sq ; i++) 
     {
-        bool mark[n + 1];
-        memset(mark, true, sizeof(mark));
+        int toLim = floor(n/primes[i]) * primes[i]; 
 
-        for(unsigned i = 0; i < primesBelowN; i++) 
+        if(toLim < n)
+            toLim += primes[i];
+
+        if(toLim > primes[i])
+            mark[toLim - n] = false;
+        for(int j = toLim + primes[i]; j <= m; j += primes[i])
         {
-            int toLim = floor(low/primes[i]) * primes[i]; 
-            if(toLim < low)
-                toLim += primes[i];
-
-            for(int j = toLim; j < high; j += primes[i])
-                mark[j - low] = false;
+            mark[j - n] = false;
         }
-
-       int a = 0;
-        for(int i = low; i < high; i++)
-            if(mark[i - low])
-            {
-                a++; 
-                primes.push_back(i);
-            }
-
-        low += n;
-        high += n;
-        if(high >= MAXNUM)
-            high = MAXNUM;
-
-        
-            
-        //cout << "LOW: " << low << " HIGH: " << high << endl;
     }
+
+
+    for(int i = n; i <= m; i++)
+        if(mark[i - n])
+        {
+            cout << i << endl;
+        }
 }
+
 
 int main()
 {
@@ -82,25 +75,12 @@ int main()
     int sq = floor(sqrt(MAXNUM)) + 1;
     sieveFill(sq);
 
-
-     sieveSegmented(sq);     
-
     int t; cin >> t;
 
-
-    
     while(t--)
     {
         int n, m; cin >> n >> m;
-        
-        for(unsigned i = 0; i < primes.size(); i++) 
-        {
-            if(primes[i] >= n && primes[i] <=m)
-            {
-                cout << primes[i] << endl;
-            }
-            
-        }
+        sieveSegmented(n, m);
         cout << endl;
     }
     
