@@ -1,0 +1,18 @@
+CC = g++
+FLAGS = -g -Wall -std=c++11
+OPT = -O3 -Wall -std=c++11 -Wall
+
+all: multithreaded	
+
+multithreaded: multithreaded.o
+	$(CC) -o multithreaded multithreaded.o -lpthread
+
+multithreaded.o: multithreaded.cpp
+	$(CC) $(FLAGS) -c multithreaded.cpp -lpthread
+
+optimized:
+	$(CC) $(OPT) -o multithreaded multithreaded.cpp -lpthread
+
+clean:
+	rm -f multithreaded multithreaded.o
+
