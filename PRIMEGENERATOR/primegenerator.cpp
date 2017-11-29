@@ -9,6 +9,7 @@ const int inf = 1000000000;
 vector<bool> sieve;
 vector<int> primes;
 
+
 void sieveFill(int n)
 {
     //calculate primes until n
